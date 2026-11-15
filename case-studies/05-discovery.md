@@ -90,6 +90,7 @@ Supporting work: a matrix of **351 payment gateways** and their card / Apple Pay
 ## 4. Smaller research
 
 - **Larger desktop booking widget:** survey of 27 hotel clients (15 English, 12 French). Larger 12, current 9, no preference 6. English-speaking clients favoured larger, French clients were attached to the current one. 14 agreed to follow-up calls.
+- **User-research plan for Q3–Q4:** an assumption workshop, then AI-assisted mining of client interviews, churn data and session recordings.
 - **Accessibility (US clients):** defined nine minimum screen-reader requirements and found the booking system's accessibility certificate was from 2019, covered an older WCAG version, and excluded Namastay's customisations.
 
 **Skills:** user research · interviews · surveys · journey mapping · personas · workshop facilitation · competitive research

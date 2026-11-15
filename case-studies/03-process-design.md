@@ -83,7 +83,7 @@ The company KPI sheet attributes **€41.6K of live ACV** to my work:
 
 That's **seven hotels taken live** plus five upsells. Five more hotels from the same resort group as the island resort are in process (€4,860 each).
 
-For the Paris and Vienna launch I was the primary contact while my manager was away: daily updates, an issue tracker kept current, prioritised bug tickets and a live-testing log. One request, a marketing opt-in, shipped as a product change. Both properties went live in August 2026.
+For the Paris and Vienna launch I was the primary contact while my manager was away: daily updates, an issue tracker kept current, prioritised bug tickets and a live-testing log. I ran the booking-engine integration test suite of **195 cases**: passes went from **42 to 77** and failures from **14 to 7** over June–July, with issues, bugs and feature requests logged for engineering. One request, a marketing opt-in, shipped as a product change. Both properties went live in August 2026.
 
 ---
 

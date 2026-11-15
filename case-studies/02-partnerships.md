@@ -136,4 +136,10 @@ flowchart LR
 
 ---
 
+## 5. Selling through a platform partner: a cross-sell memo
+
+Partnerships also run the other way. I wrote a cross-sell reference memo for the sales team of Mews, a property-management system: Namastay's footprint (**250+ hotels in 32 countries**, 20+ of them on Mews) and **six cross-sell scenarios**, backed by a client list broken down by PMS and CRS.
+
+---
+
 **Skills:** business cases · scenario modelling · requirements · RICE · GTM · competitive teardown · go/no-go decisions

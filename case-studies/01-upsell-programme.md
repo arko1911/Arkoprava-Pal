@@ -18,6 +18,8 @@ Namastay had ~273 live hotels and several paid features most of them weren't usi
 |---|---|---|---|---|
 | 2,285 | 200 | 8.75% | **€274,998** | €1,375 |
 
+A separate pilot at a three-hotel boutique group showed the companion feature (Exclusive Rates, which captures guest emails in exchange for a member price) raised email-recovered revenue **3–5×**, and that a 3-hour email delay beat 24 hours.
+
 **4. Built the targeting data.** For each hotel I pulled a "% not starting payment" figure from Mixpanel (May–July 2026), matched the CRM against the booking database (294 hotels), and built two outreach lists (French: 50; mixed: 145), split into 159 + 328 contacts with language, country and go-live date.
 
 **5. Built the target list.** I merged two messy exports (recently-contacted people and the master customer list) into **153 hotels** with go-live dates, countries and up to 10 contacts each. Cleaning it meant fixing an email-security bounce prefix, a company field stored as a raw domain, multi-email cells with no separator, and dates parsed day-month the wrong way round.

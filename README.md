@@ -70,15 +70,15 @@ Three working tools, rebuilt on synthetic data so they run in the browser with n
 
 ### 1. Building an upsell motion from zero → [case study](case-studies/01-upsell-programme.md)
 
-Namastay had several paid features most hotels weren't using, and no upsell process. I interviewed all eight sales and customer-success colleagues: Cart Abandonment won 7 of 8 votes, and every interview named the same blocker, which was no proof it worked. I built that proof from live client data (2,285 recovery emails, 200 bookings recovered, €274,998), merged two messy exports into a 153-hotel target list, and built the campaign assets. **5 hotels signed Cart Abandonment upsells (€10.8K ACV)**, with one more in process.
+Namastay had several paid features most hotels weren't using, and no upsell process. I interviewed all eight sales and customer-success colleagues: Cart Abandonment won 7 of 8 votes, and every interview named the same blocker, which was no proof it worked. I built that proof from live client data (2,285 recovery emails, 200 bookings recovered, €274,998), merged two messy exports into a 153-hotel target list, and built the campaign assets. **5 hotels signed Cart Abandonment upsells (€10.8K ACV)**, with one more in process. A separate pilot showed the companion Exclusive Rates feature raised email-recovered revenue 3–5×.
 
 ### 2. Partnerships: what to build, what to kill → [case study](case-studies/02-partnerships.md)
 
-Four partnerships, each a bet on putting more of the guest's spend inside the booking flow. **Refund protection:** the incumbent's data showed €16,106 of protection sold but only €322 reaching Namastay; I built a three-scenario business case, a 40-property launch list and 44 requirements, and led the negotiation call and sign-off alongside leadership. **The €50K integration bonus has been received.** **Restaurant booking:** led v1 and v2, prioritised v2 with RICE and removed 17 duplicate requirement rows. **Spa:** a ten-factor build-vs-embed framework; v1 scoped to appointments. **eSIM:** recommended deprioritising, because the provider's proven distribution was airlines and travel agencies, not hotels.
+Four partnerships, each a bet on putting more of the guest's spend inside the booking flow. **Refund protection:** the incumbent's data showed €16,106 of protection sold but only €322 reaching Namastay; I built a three-scenario business case, a 40-property launch list and 44 requirements, and led the negotiation call and sign-off alongside leadership. **The €50K integration bonus has been received.** **Restaurant booking:** led v1 and v2, prioritised v2 with RICE and removed 17 duplicate requirement rows. **Spa:** a ten-factor build-vs-embed framework; v1 scoped to appointments. **eSIM:** recommended deprioritising, because the provider's proven distribution was airlines and travel agencies, not hotels. I also wrote a cross-sell memo for a PMS partner's sales team (Mews): six scenarios across Namastay's 250+ hotels in 32 countries.
 
 ### 3. Mapping sales-to-billing and onboarding → [case study](case-studies/03-process-design.md)
 
-What flows from signature to invoice isn't the hotel, it's the **subscription**, so I designed a CRM Subscription object with a trial sub-flow and a billing rule. Onboarding took 10 weeks on average (best 3.5, worst 18); I mapped it into 9 phases, located where time actually went, and proposed 16 automations tied to evidence. **€41.6K of live ACV** is attributed to my work: seven hotels taken live (a two-hotel Paris and Vienna launch, a Mediterranean island resort, and four hotels in one UK collection) plus five Cart Abandonment upsells, with five more hotels from the same resort group in process.
+What flows from signature to invoice isn't the hotel, it's the **subscription**, so I designed a CRM Subscription object with a trial sub-flow and a billing rule. Onboarding took 10 weeks on average (best 3.5, worst 18); I mapped it into 9 phases, located where time actually went, and proposed 16 automations tied to evidence. **€41.6K of live ACV** is attributed to my work: seven hotels taken live (a two-hotel Paris and Vienna launch, a Mediterranean island resort, and four hotels in one UK collection) plus five Cart Abandonment upsells, with five more hotels from the same resort group in process. For the Paris and Vienna launch I ran a 195-case integration test suite (passes 42 → 77, failures 14 → 7).
 
 ### 4. Data that changed a client conversation → [case study](case-studies/04-data-and-benchmarks.md)
 
@@ -86,7 +86,7 @@ A **165-hotel, four-tier ADR benchmark** so hotels are compared with their price
 
 ### 5. Discovery: experiences, not just rooms → [case study](case-studies/05-discovery.md)
 
-Tested the idea that guests book a stay while engines sell a room: a market map, a portfolio scan (only 55% of hotels surfaced dining, 32% spa), client interviews, a 12-property audit and length-of-stay data across 313,494 bookings. Designed multi-hotel itinerary flows, and designed a payments-onboarding workshop (my manager oversaw it) that surfaced 20 problems and agreed actions, supported by a 351-gateway matrix.
+Tested the idea that guests book a stay while engines sell a room: a market map, a portfolio scan (only 55% of hotels surfaced dining, 32% spa), client interviews, a 12-property audit and length-of-stay data across 313,494 bookings. Designed multi-hotel itinerary flows, and designed a payments-onboarding workshop (my manager oversaw it) that surfaced 20 problems and agreed actions, supported by a 351-gateway matrix. I also wrote a Q3–Q4 user-research plan.
 
 ### 6. Before Namastay → [case study](case-studies/06-before-namastay.md)
 
@@ -109,13 +109,13 @@ Smaller tools and documents ([details](case-studies/03-process-design.md#4-small
 - A deeplink builder covering SynXis (217), D-Edge (84) and Mews (18), plus a CRM-to-database mapping of 294 hotels
 - A January bug report by source system, each issue tied to a Jira ticket
 - A payment-link competitor matrix: about 15 vendors × 15 capabilities
+- A cross-sell memo for Mews's sales team: six scenarios across 250+ hotels ([partnerships](case-studies/02-partnerships.md#5-selling-through-a-platform-partner-a-cross-sell-memo))
+- A Q3–Q4 user-research plan: assumption workshop plus AI-assisted mining of interviews, churn and recordings ([discovery](case-studies/05-discovery.md#4-smaller-research))
 - Enhanced Multiproperty requirements and a Mapbox Studio feasibility report
 - A 19 March brainstorm and an opportunity–solution tree for experience bookings, plus a trend scan of 32 hotels' itineraries ([discovery](case-studies/05-discovery.md))
 
 ---
 
 ## Contact
-
-Open to product, strategy and data roles. Based in Paris and open to relocating (for example Berlin or Amsterdam).
 
 Arkoprava Pal · 📍 Paris · ✉️ [palarko19@gmail.com](mailto:palarko19@gmail.com) · 🔗 [LinkedIn](https://linkedin.com/in/arkoprava-pal) · 🌐 [arko1911.github.io](https://arko1911.github.io/)
