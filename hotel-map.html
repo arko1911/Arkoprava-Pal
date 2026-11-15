@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client World Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --bg:#f6f2ea; --surface:#fffdf8; --ink:#1d2421; --muted:#5f6b66; --line:#e3dccf;
+  --accent:#1f5c4a; --accent-soft:#dcebe4; --warm:#b5672e;
+  --shadow:0 1px 2px rgba(29,36,33,.05),0 8px 24px rgba(29,36,33,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632;
+    --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632;
+  --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 16px 64px}
+a{color:var(--accent)}
+.back{display:inline-block;margin-bottom:18px;font-size:13px;text-decoration:none}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin:8px 0 12px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:680px;margin:0 0 24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:5px 12px;font:500 13px Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+select{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:6px 10px;font:inherit;font-size:13px}
+.chk{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.chk input{accent-color:var(--accent)}
+.count{margin-left:auto;font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted)}
+.count b{font-family:Fraunces,Georgia,serif;font-size:22px;color:var(--accent);margin-right:4px}
+@media (max-width:640px){.count{margin-left:0;width:100%}}
+#map{height:min(62vh,560px);background:var(--bg)}
+.leaflet-container{font:13px Inter,system-ui,sans-serif}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
+.pop b{font-family:Fraunces,Georgia,serif;font-size:15px;display:block;margin-bottom:2px}
+.pop span{color:var(--muted);display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line)}
+.stats div{background:var(--surface);padding:12px 16px}
+.stats b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted)}
+.foot{margin-top:24px;font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="https://github.com/arko1911/Arkoprava-Pal">← Back to portfolio</a>
+  <div class="eyebrow">Demo · every hotel here is invented</div>
+  <h1>Where are our clients? A map for the sales team.</h1>
+  <p class="lede">I built the sales team a map of every live client from the CRM export: 250+ live hotels, with a count that updates itself when the list changes. This version runs on invented hotels so it can be public.</p>
+
+  <div class="card">
+    <div class="bar">
+      <div class="chips" id="regions" role="group" aria-label="Filter by region"></div>
+      <select id="system" aria-label="Filter by booking system"></select>
+      <label class="chk"><input type="checkbox" id="impl" checked> Include implementing</label>
+      <span class="chk"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block"></span>Live <span style="width:10px;height:10px;border-radius:50%;background:var(--warm);display:inline-block;margin-left:8px"></span>Implementing</span>
+      <div class="count" aria-live="polite"><b id="count">0</b>hotels shown</div>
+    </div>
+    <div id="map" role="region" aria-label="Map of hotels"></div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <p class="foot">Hotel names, locations, systems and dates are generated and do not describe real Namastay clients. Map data © OpenStreetMap contributors, tiles © CARTO. Built by <a href="https://github.com/arko1911/Arkoprava-Pal">Arkoprava Pal</a>.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  var CITIES=[
+    ['Paris',48.857,2.352,'France',9],['Nice',43.70,7.27,'France',3],['Lyon',45.76,4.84,'France',2],
+    ['Bordeaux',44.84,-0.58,'France',2],['Annecy',45.90,6.13,'France',2],['Luberon',43.83,5.30,'France',3],
+    ['Chamonix',45.92,6.87,'France',2],['Saint-Tropez',43.27,6.64,'France',2],['Brittany coast',47.75,-3.37,'France',2],
+    ['Alsace',48.08,7.36,'France',1],['Corsica',41.92,8.74,'France',1],
+    ['London',51.507,-0.128,'Rest of Europe',3],['Devon',50.55,-3.80,'Rest of Europe',2],['Lisbon',38.72,-9.14,'Rest of Europe',2],
+    ['Madrid',40.42,-3.70,'Rest of Europe',1],['Mallorca',39.70,2.90,'Rest of Europe',2],['Rome',41.90,12.50,'Rest of Europe',2],
+    ['Lake Como',45.99,9.26,'Rest of Europe',1],['Prague',50.08,14.43,'Rest of Europe',1],['Geneva',46.20,6.14,'Rest of Europe',2],
+    ['Amsterdam',52.37,4.90,'Rest of Europe',1],['Brussels',50.85,4.35,'Rest of Europe',1],['Warsaw',52.23,21.01,'Rest of Europe',1],['Mykonos',37.45,25.33,'Rest of Europe',1],
+    ['New York',40.71,-74.0,'North America',3],['Los Angeles',34.05,-118.24,'North America',3],['San Francisco',37.77,-122.42,'North America',1],
+    ['Miami',25.76,-80.19,'North America',2],['Hudson Valley',41.75,-73.95,'North America',1],['Austin',30.27,-97.74,'North America',1],
+    ['Montreal',45.50,-73.57,'North America',1],
+    ['Tulum',20.21,-87.46,'LATAM & Caribbean',2],['Exuma',23.62,-75.97,'LATAM & Caribbean',1],['Jamaica',18.40,-76.95,'LATAM & Caribbean',1],
+    ['Buenos Aires',-34.60,-58.38,'LATAM & Caribbean',1],
+    ['Marrakech',31.63,-7.99,'Africa & Middle East',2],['Cape Town',-33.92,18.42,'Africa & Middle East',1],['Dubai',25.20,55.27,'Africa & Middle East',1],
+    ['Luang Prabang',19.89,102.13,'Asia-Pacific',1],['Bali',-8.51,115.26,'Asia-Pacific',1],['Chiang Mai',18.79,98.98,'Asia-Pacific',1],['Goa',15.30,74.12,'Asia-Pacific',1]
+  ];
+  var PRE=['Maison','Hôtel','Villa','Domaine','The','Casa','Lodge','House','Le Clos','Palazzo'];
+  var CORE=['Verlaine','des Tilleuls','Ombrelune','Ardoise','Saltmarsh','Calanque','Lumen','Hollyhock','Belvent','Corail','Fenwick','Solstice','Amarelo','Pinewild','Rivage','Oriel','Lanterne','Marigold','Kestrel','Azulejo','Cendre','Thistle','Aubépine','Driftwood','Mirabelle','Olivar','Hawthorn','Brume'];
+  var SYSTEMS=['SynXis','D-Edge','Mews','StayNTouch','Other'];
+  var SYSW=[0.5,0.22,0.12,0.06,0.10];
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  var s=290; function rnd(){s=(s*1664525+1013904223)>>>0;return s/4294967296}
+  function pick(a){return a[Math.floor(rnd()*a.length)]}
+  function pickW(a,w){var r=rnd(),c=0;for(var i=0;i<a.length;i++){c+=w[i];if(r<c)return a[i]}return a[a.length-1]}
+
+  var used={}, HOTELS=[];
+  CITIES.forEach(function(c){
+    for(var i=0;i<c[4];i++){
+      var name; do{name=pick(PRE)+' '+pick(CORE)}while(used[name]); used[name]=1;
+      var live=rnd()>0.12;
+      HOTELS.push({
+        name:name, city:c[0], region:c[3],
+        lat:c[1]+(rnd()-.5)*0.22, lng:c[2]+(rnd()-.5)*0.28,
+        system:pickW(SYSTEMS,SYSW), live:live,
+        since: live ? MONTHS[Math.floor(rnd()*12)]+' '+(2022+Math.floor(rnd()*5)) : null
+      });
+    }
+  });
+
+  var REGIONS=['All','France','Rest of Europe','North America','LATAM & Caribbean','Africa & Middle East','Asia-Pacific'];
+  var state={region:'All',system:'All',impl:true};
+
+  var dark=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;
+  var map=L.map('map',{worldCopyJump:true,scrollWheelZoom:false}).setView([38,5],3);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/'+(dark?'dark_all':'light_all')+'/{z}/{x}/{y}{r}.png',{
+    maxZoom:18, subdomains:'abcd',
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+  }).addTo(map);
+  var layer=L.layerGroup().addTo(map);
+
+  var root=getComputedStyle(document.documentElement);
+  var ACC=root.getPropertyValue('--accent').trim(), WARM=root.getPropertyValue('--warm').trim();
+
+  var rEl=document.getElementById('regions');
+  REGIONS.forEach(function(r){
+    var b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=r;
+    b.setAttribute('aria-pressed',r===state.region);
+    b.onclick=function(){state.region=r;[].forEach.call(rEl.children,function(x){x.setAttribute('aria-pressed',x===b)});render(true)};
+    rEl.appendChild(b);
+  });
+  var sel=document.getElementById('system');
+  ['All'].concat(SYSTEMS).forEach(function(x){var o=document.createElement('option');o.value=x;o.textContent=x==='All'?'All booking systems':x;sel.appendChild(o)});
+  sel.onchange=function(){state.system=sel.value;render(true)};
+  document.getElementById('impl').onchange=function(e){state.impl=e.target.checked;render(true)};
+
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function render(fit){
+    layer.clearLayers();
+    var shown=HOTELS.filter(function(h){
+      return (state.region==='All'||h.region===state.region)&&(state.system==='All'||h.system===state.system)&&(state.impl||h.live);
+    });
+    shown.forEach(function(h){
+      L.circleMarker([h.lat,h.lng],{radius:7,color:'#fff',weight:1.5,fillColor:h.live?ACC:WARM,fillOpacity:.9})
+        .bindPopup('<div class="pop"><b>'+esc(h.name)+'</b><span>'+esc(h.city)+' · '+esc(h.system)+'</span><span>'+(h.live?'Live since '+h.since:'Implementing')+'</span></div>')
+        .addTo(layer);
+    });
+    document.getElementById('count').textContent=shown.length;
+    var live=shown.filter(function(h){return h.live}).length;
+    var bySys={}; shown.forEach(function(h){bySys[h.system]=(bySys[h.system]||0)+1});
+    var top=Object.keys(bySys).sort(function(a,b){return bySys[b]-bySys[a]})[0]||'—';
+    var regs={}; shown.forEach(function(h){regs[h.region]=1});
+    document.getElementById('stats').innerHTML=
+      '<div><b>'+live+'</b><span>live</span></div>'+
+      '<div><b>'+(shown.length-live)+'</b><span>implementing</span></div>'+
+      '<div><b>'+Object.keys(regs).length+'</b><span>regions</span></div>'+
+      '<div><b>'+esc(top)+'</b><span>most common system</span></div>';
+    if(fit&&shown.length){map.fitBounds(L.latLngBounds(shown.map(function(h){return[h.lat,h.lng]})).pad(0.25),{maxZoom:7})}
+  }
+  render(false);
+})();
+</script>
+</body>
+</html>

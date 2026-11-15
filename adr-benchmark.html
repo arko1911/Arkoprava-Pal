@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADR-Tier Benchmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f2ea; --surface:#fffdf8; --ink:#1d2421; --muted:#5f6b66; --line:#e3dccf; --grid:#ece6da;
+  --accent:#1f5c4a; --accent-soft:#dcebe4; --warm:#b5672e; --warm-soft:#f4e3d4;
+  --t1:#8a9a92; --t2:#5e8a78; --t3:#3c6e5d; --t4:#1f4d40;
+  --shadow:0 1px 2px rgba(29,36,33,.05),0 8px 24px rgba(29,36,33,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632; --grid:#242c29;
+    --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --warm-soft:#3a2a1e;
+    --t1:#5d6d66; --t2:#5d907c; --t3:#74b39a; --t4:#9fd8c1; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632; --grid:#242c29;
+  --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --warm-soft:#3a2a1e;
+  --t1:#5d6d66; --t2:#5d907c; --t3:#74b39a; --t4:#9fd8c1; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 16px 64px}
+a{color:var(--accent)}
+.back{display:inline-block;margin-bottom:18px;font-size:13px;text-decoration:none}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin:8px 0 12px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:680px;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);gap:20px}
+@media (max-width:880px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);min-width:0}
+.card h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:19px;margin:0 0 16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13.5px;font-weight:500;margin-bottom:5px}
+.field input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums}
+.field input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.result{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.conv{font-family:Fraunces,Georgia,serif;font-size:44px;font-weight:600;line-height:1;color:var(--accent)}
+.tierpill{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-size:12.5px;font-weight:600}
+.cmp{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin-top:14px;font-size:14px}
+.cmp span:nth-child(even){font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.verdict{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;background:var(--warm-soft)}
+.verdict.good{background:var(--accent-soft)}
+.note{font-size:12.5px;color:var(--muted)}
+svg text{fill:var(--muted);font:11px Inter,system-ui,sans-serif}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
+th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.case{margin-top:20px}
+.crow{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;margin:12px 0}
+.bars{display:grid;gap:4px}
+.b{display:flex;align-items:center;gap:8px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.b i{display:block;height:14px;border-radius:4px}
+.b.us i{background:var(--accent)}
+.b.bm i{background:var(--line)}
+.foot{margin-top:28px;font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="https://github.com/arko1911/Arkoprava-Pal">← Back to portfolio</a>
+  <div class="eyebrow">Demo · benchmark averages are real, hotel dots are synthetic</div>
+  <h1>Is this hotel converting well? Compare it to its price peers.</h1>
+  <p class="lede">A €1,500/night stay is researched longer and booked less impulsively than a €150/night one. Comparing both to one platform average makes luxury hotels look worse than they are. This benchmark compares each hotel to hotels at a similar nightly rate.</p>
+
+  <div class="grid">
+    <section class="card" aria-label="Your hotel">
+      <h2>Your hotel</h2>
+      <div class="field"><label for="adr">Average daily rate (€)</label><input id="adr" type="number" min="1" value="650"></div>
+      <div class="field"><label for="opens">Booking-engine opens per month</label><input id="opens" type="number" min="1" value="8000"></div>
+      <div class="field"><label for="books">Bookings per month</label><input id="books" type="number" min="0" value="110"></div>
+      <div class="field"><label for="val">Average booking value (€)</label><input id="val" type="number" min="0" value="1900"></div>
+      <div class="note">Conversion = bookings ÷ booking-engine opens × 100</div>
+
+      <div class="result" aria-live="polite">
+        <div class="conv" id="conv">—</div>
+        <span class="tierpill" id="tier">—</span>
+        <div class="cmp">
+          <span>Tier average</span><span id="tavg">—</span>
+          <span>Naïve platform average</span><span id="pavg">—</span>
+        </div>
+        <div class="verdict" id="verdict">—</div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Benchmark chart">
+      <h2>165 hotels by nightly rate and conversion</h2>
+      <svg id="chart" viewBox="0 0 640 400" width="100%" role="img" aria-label="Scatter of hotels by ADR and conversion, with tier averages and your hotel highlighted"></svg>
+      <div class="legend">
+        <span><i style="background:var(--t1)"></i>Low</span>
+        <span><i style="background:var(--t2)"></i>Mid</span>
+        <span><i style="background:var(--t3)"></i>High</span>
+        <span><i style="background:var(--t4)"></i>Ultra luxury</span>
+        <span><i style="background:var(--warm)"></i>Your hotel</span>
+        <span>— tier average</span>
+      </div>
+      <table aria-label="Tier benchmarks">
+        <thead><tr><th>Tier</th><th>ADR</th><th class="r">Avg conversion</th><th class="r">Hotels</th></tr></thead>
+        <tbody id="tiers"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <section class="card case" aria-label="Case">
+    <h2>What it showed a 12-property US lifestyle group</h2>
+    <p class="note" style="margin:-8px 0 8px">Against one platform average their pricier hotels looked mediocre. Against their price peers, every property outperformed.</p>
+    <div id="case"></div>
+    <div class="legend"><span><i style="background:var(--accent);border-radius:3px"></i>Client group</span><span><i style="background:var(--line);border-radius:3px"></i>Tier benchmark</span></div>
+  </section>
+
+  <p class="foot">Tier averages, hotel counts per tier (the High count is derived from the 165 total), and the case figures come from the real analysis: Mixpanel unique opens and purchases for 481 hotels, joined to ADR from BigQuery and cleaned to 165. The dots are generated to match each tier's average and are not real hotels. The "naïve platform average" is the hotel-weighted mean of the four tiers. Built by <a href="https://github.com/arko1911/Arkoprava-Pal">Arkoprava Pal</a>.</p>
+</div>
+
+<script>
+(function(){
+  var TIERS=[
+    {key:'Low',  lo:0,   hi:200,  avg:5.90, n:10, c:'--t1', range:'€0–200'},
+    {key:'Mid',  lo:200, hi:500,  avg:2.63, n:79, c:'--t2', range:'€200–500'},
+    {key:'High', lo:500, hi:1000, avg:1.67, n:55, c:'--t3', range:'€500–1,000'},
+    {key:'Ultra luxury', lo:1000, hi:Infinity, avg:0.98, n:21, c:'--t4', range:'> €1,000'}
+  ];
+  var PLATFORM = TIERS.reduce(function(s,t){return s+t.avg*t.n},0)/TIERS.reduce(function(s,t){return s+t.n},0);
+  var $=function(id){return document.getElementById(id)};
+  var eur=new Intl.NumberFormat('en-GB',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  var pct=function(v){return v.toFixed(2)+'%'};
+
+  // Seeded RNG so the synthetic dots are stable
+  var s=20261113; function rnd(){s=(s*1664525+1013904223)>>>0;return s/4294967296}
+  function gauss(){var u=rnd()||1e-9,v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+
+  var pts=[];
+  TIERS.forEach(function(t){
+    var lo=Math.max(t.lo,90), hi=isFinite(t.hi)?t.hi:2600, arr=[];
+    for(var i=0;i<t.n;i++){
+      var adr=Math.exp(Math.log(lo)+rnd()*(Math.log(hi)-Math.log(lo)));
+      var cv=Math.exp(gauss()*0.42);
+      arr.push({adr:adr,cv:cv,t:t});
+    }
+    var m=arr.reduce(function(a,p){return a+p.cv},0)/arr.length;
+    arr.forEach(function(p){p.cv=p.cv/m*t.avg});
+    pts=pts.concat(arr);
+  });
+
+  var W=640,H=400,L=48,R=16,T=14,B=40, XMIN=80,XMAX=3000,YMAX=12;
+  function x(v){return L+(Math.log(v)-Math.log(XMIN))/(Math.log(XMAX)-Math.log(XMIN))*(W-L-R)}
+  function y(v){return T+(1-Math.min(v,YMAX)/YMAX)*(H-T-B)}
+  function css(v){return 'var('+v+')'}
+
+  function draw(user){
+    var g='';
+    for(var yy=0;yy<=YMAX;yy+=2){g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(yy)+'" y2="'+y(yy)+'" stroke="var(--grid)"/><text x="'+(L-8)+'" y="'+(y(yy)+4)+'" text-anchor="end">'+yy+'%</text>'}
+    [100,200,500,1000,2000].forEach(function(v){g+='<line x1="'+x(v)+'" x2="'+x(v)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--grid)"/><text x="'+x(v)+'" y="'+(H-B+16)+'" text-anchor="middle">€'+(v>=1000?(v/1000)+'k':v)+'</text>'});
+    g+='<text x="'+((W+L)/2)+'" y="'+(H-6)+'" text-anchor="middle">Average daily rate (log scale)</text>';
+    TIERS.forEach(function(t){
+      var a=x(Math.max(t.lo,XMIN)), b=x(isFinite(t.hi)?t.hi:XMAX);
+      g+='<line x1="'+a+'" x2="'+b+'" y1="'+y(t.avg)+'" y2="'+y(t.avg)+'" stroke="'+css(t.c)+'" stroke-width="2.5"/>';
+    });
+    pts.forEach(function(p){g+='<circle cx="'+x(p.adr).toFixed(1)+'" cy="'+y(p.cv).toFixed(1)+'" r="4" fill="'+css(p.t.c)+'" fill-opacity=".72"/>'});
+    if(user){
+      var ux=x(Math.min(Math.max(user.adr,XMIN),XMAX)), uy=y(user.cv);
+      g+='<circle cx="'+ux+'" cy="'+uy+'" r="9" fill="var(--warm)" stroke="var(--surface)" stroke-width="3"/>';
+      g+='<text x="'+(ux+13)+'" y="'+(uy+4)+'" style="fill:var(--ink);font-weight:600">You '+user.cv.toFixed(2)+'%</text>';
+    }
+    $('chart').innerHTML=g;
+  }
+
+  function tierOf(adr){for(var i=0;i<TIERS.length;i++){if(adr<TIERS[i].hi)return TIERS[i]}return TIERS[3]}
+
+  function update(){
+    var adr=+$('adr').value, opens=+$('opens').value, books=+$('books').value, val=+$('val').value;
+    if(!(adr>0)||!(opens>0)||books<0){$('conv').textContent='—';draw(null);return}
+    var cv=books/opens*100, t=tierOf(adr);
+    $('conv').textContent=pct(cv);
+    $('tier').textContent=t.key+' tier · '+t.range;
+    $('tavg').textContent=pct(t.avg);
+    $('pavg').textContent=pct(PLATFORM);
+    var diff=(cv/t.avg-1)*100, v=$('verdict');
+    var naive = cv<PLATFORM ? 'below' : 'above';
+    if(cv>=t.avg){
+      v.className='verdict good';
+      v.innerHTML='<b>'+Math.round(diff)+'% above</b> its price peers. Against the naïve platform average it would look '+naive+' average, which is exactly why the tier matters.';
+    } else {
+      var extra=t.avg/100*opens-books;
+      v.className='verdict';
+      v.innerHTML='<b>'+Math.abs(Math.round(diff))+'% below</b> its price peers. Matching the tier average would mean about <b>'+Math.round(extra)+' more bookings a month</b>, roughly <b>'+eur.format(extra*val*12)+' a year</b>.';
+    }
+    draw({adr:adr,cv:cv});
+  }
+
+  $('tiers').innerHTML=TIERS.map(function(t){return '<tr><td><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+css(t.c)+';margin-right:8px"></span>'+t.key+'</td><td>'+t.range+'</td><td class="r">'+pct(t.avg)+'</td><td class="r">'+t.n+'</td></tr>'}).join('');
+
+  var CASE=[{k:'Mid',us:4.27,bm:2.63},{k:'High',us:3.35,bm:1.67},{k:'Ultra luxury',us:1.84,bm:0.98}];
+  var MAXC=5;
+  $('case').innerHTML=CASE.map(function(c){
+    return '<div class="crow"><b style="font-size:14px">'+c.k+'</b><div class="bars">'+
+      '<div class="b us"><i style="width:'+(c.us/MAXC*80)+'%"></i>'+pct(c.us)+' <span class="note">(+'+Math.round((c.us/c.bm-1)*100)+'% vs tier)</span></div>'+
+      '<div class="b bm"><i style="width:'+(c.bm/MAXC*80)+'%"></i>'+pct(c.bm)+'</div></div></div>';
+  }).join('');
+
+  ['adr','opens','books','val'].forEach(function(id){$(id).addEventListener('input',update)});
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart Abandonment Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f2ea; --surface:#fffdf8; --ink:#1d2421; --muted:#5f6b66; --line:#e3dccf;
+  --accent:#1f5c4a; --accent-soft:#dcebe4; --warm:#b5672e; --warm-soft:#f4e3d4;
+  --shadow:0 1px 2px rgba(29,36,33,.05),0 8px 24px rgba(29,36,33,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632;
+    --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --warm-soft:#3a2a1e;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --ink:#ecf0ed; --muted:#9aa8a1; --line:#2c3632;
+  --accent:#6fc2a3; --accent-soft:#1f3a31; --warm:#e09a63; --warm-soft:#3a2a1e; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 16px 64px}
+a{color:var(--accent)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin:8px 0 12px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:640px;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.card h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:19px;margin:0 0 16px}
+.field{margin-bottom:18px}
+.field label{display:flex;justify-content:space-between;gap:12px;font-size:14px;font-weight:500;margin-bottom:6px}
+.field output{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.toggle{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;background:var(--accent-soft);cursor:pointer}
+.toggle input{margin-top:3px;accent-color:var(--accent)}
+.big{font-family:Fraunces,Georgia,serif;font-size:clamp(34px,6vw,52px);font-weight:600;line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+@media (max-width:480px){.stat b{font-size:17px}.stat{padding:8px 9px}}
+.stat{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.funnel{margin-top:6px}
+.frow{display:grid;grid-template-columns:120px 1fr 64px;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+.bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
+.frow:last-child .bar i{background:var(--warm)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.roi{margin-top:18px;padding:12px 14px;border-radius:10px;background:var(--warm-soft);font-size:14px}
+.proof{margin-top:20px}
+.proof .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:640px){.proof .row{grid-template-columns:1fr 1fr!important}}
+.proof b{font-family:Fraunces,Georgia,serif;font-size:26px;display:block;font-weight:600}
+.proof span{font-size:12.5px;color:var(--muted)}
+.foot{margin-top:28px;font-size:12.5px;color:var(--muted)}
+.back{display:inline-block;margin-bottom:18px;font-size:13px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="https://github.com/arko1911/Arkoprava-Pal">← Back to portfolio</a>
+  <div class="eyebrow">Demo · synthetic inputs</div>
+  <h1>How much does a hotel lose to abandoned bookings?</h1>
+  <p class="lede">The model behind Namastay's Cart Abandonment upsell. Guests who reach checkout and leave get an automated reminder; a share of them come back and book. Move the sliders to see what that's worth for a hotel.</p>
+
+  <div class="grid">
+    <section class="card" aria-label="Inputs">
+      <h2>Your hotel</h2>
+      <div class="field">
+        <label for="starts">Guests reaching checkout per month <output id="o-starts"></output></label>
+        <input id="starts" type="range" min="50" max="2000" step="10" value="400">
+      </div>
+      <div class="field">
+        <label for="abandon">Share who leave before paying <output id="o-abandon"></output></label>
+        <input id="abandon" type="range" min="10" max="80" step="1" value="45">
+        <div class="hint">Across the platform, checkout→purchase typically runs 50–83%.</div>
+      </div>
+      <div class="field">
+        <label for="capture">Leavers with an email on file <output id="o-capture"></output></label>
+        <input id="capture" type="range" min="5" max="100" step="1" value="40">
+        <div class="hint">You can only remind guests you can reach.</div>
+      </div>
+      <div class="field">
+        <label for="conv">Reminder → booking conversion <output id="o-conv"></output></label>
+        <input id="conv" type="range" min="1" max="20" step="0.25" value="8.75">
+        <div class="hint">8.75% is what live clients achieved (see below).</div>
+      </div>
+      <div class="field">
+        <label for="abv">Average booking value <output id="o-abv"></output></label>
+        <input id="abv" type="range" min="150" max="4000" step="25" value="1375">
+        <div class="hint">€1,375 is the real average: €274,998 ÷ 200 recovered bookings.</div>
+      </div>
+      <label class="toggle">
+        <input id="er" type="checkbox">
+        <span><b>Add Exclusive Rates</b><br><span class="hint" style="margin:0">A member price offered in exchange for an email. In a three-hotel pilot it raised email-recovered revenue 3–5×. Modelled here at the conservative 3×.</span></span>
+      </label>
+    </section>
+
+    <section class="card" aria-label="Results">
+      <h2>Recovered revenue</h2>
+      <div class="big" id="r-year">—</div>
+      <div class="sub">per year · <span id="r-month"></span> per month</div>
+
+      <div class="stats">
+        <div class="stat"><b id="r-abandoned">—</b><span>leave checkout / month</span></div>
+        <div class="stat"><b id="r-emails">—</b><span>reminders sent / month</span></div>
+        <div class="stat"><b id="r-bookings">—</b><span>bookings won back / month</span></div>
+      </div>
+
+      <div class="funnel" aria-hidden="true">
+        <div class="frow"><span>Reach checkout</span><div class="bar"><i id="b1"></i></div><span class="num" id="n1"></span></div>
+        <div class="frow"><span>Leave</span><div class="bar"><i id="b2"></i></div><span class="num" id="n2"></span></div>
+        <div class="frow"><span>Reachable</span><div class="bar"><i id="b3"></i></div><span class="num" id="n3"></span></div>
+        <div class="frow"><span>Book again</span><div class="bar"><i id="b4"></i></div><span class="num" id="n4"></span></div>
+      </div>
+
+      <div class="roi" id="roi"></div>
+    </section>
+  </div>
+
+  <section class="card proof" aria-label="Proof case">
+    <h2>The proof case that unblocked the pitch</h2>
+    <p class="sub" style="margin:-8px 0 16px">Sales said the pitch was fine but there was no evidence it worked. These are the real results across live Namastay clients.</p>
+    <div class="row" style="grid-template-columns:repeat(5,1fr)">
+      <div><b>2,285</b><span>recovery emails sent</span></div>
+      <div><b>200</b><span>bookings recovered</span></div>
+      <div><b>8.75%</b><span>email → booking</span></div>
+      <div><b>€275K</b><span>revenue recovered</span></div>
+      <div><b>€1,375</b><span>avg recovered booking</span></div>
+    </div>
+  </section>
+
+  <p class="foot">Inputs are illustrative. The model is deliberately simple: monthly checkout starts × abandon rate × email reach × recovery conversion × booking value. The subscription comparison uses €2,400/year, a real annual price paid by a client, as an example. Built by <a href="https://github.com/arko1911/Arkoprava-Pal">Arkoprava Pal</a>.</p>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){return document.getElementById(id)};
+  var eur = new Intl.NumberFormat('en-GB',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  var n0 = new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
+  var n1 = new Intl.NumberFormat('en-GB',{maximumFractionDigits:1});
+  var SUB = 2400;
+
+  function calc(){
+    var starts = +$('starts').value, ab = +$('abandon').value/100,
+        cap = +$('capture').value/100, conv = +$('conv').value/100,
+        abv = +$('abv').value, er = $('er').checked;
+
+    $('o-starts').textContent = n0.format(starts);
+    $('o-abandon').textContent = Math.round(ab*100)+'%';
+    $('o-capture').textContent = Math.round(cap*100)+'%';
+    $('o-conv').textContent = (conv*100).toFixed(2)+'%';
+    $('o-abv').textContent = eur.format(abv);
+
+    var abandoned = starts*ab;
+    var emails = abandoned*cap;
+    var won = emails*conv;
+    var month = won*abv*(er?3:1);
+    var year = month*12;
+
+    $('r-year').textContent = eur.format(year);
+    $('r-month').textContent = eur.format(month);
+    $('r-abandoned').textContent = n0.format(abandoned);
+    $('r-emails').textContent = n0.format(emails);
+    $('r-bookings').textContent = n1.format(won*(er?3:1));
+
+    var vals=[starts,abandoned,emails,won*(er?3:1)];
+    for(var i=0;i<4;i++){
+      $('b'+(i+1)).style.width = Math.max(1.5, vals[i]/starts*100)+'%';
+      $('n'+(i+1)).textContent = i===3 ? n1.format(vals[i]) : n0.format(vals[i]);
+    }
+
+    var x = year/SUB;
+    $('roi').innerHTML = x>=1
+      ? 'Against a €2,400/year subscription, that\'s roughly <b>'+n1.format(x)+'× return</b>. About '+n1.format(SUB/abv)+' recovered bookings a year cover the cost.'
+      : 'At these inputs, recovered revenue doesn\'t yet cover a €2,400/year subscription. This is the hotel to <b>not</b> target, which is why the targeting table mattered.';
+  }
+  ['starts','abandon','capture','conv','abv','er'].forEach(function(id){
+    $(id).addEventListener('input',calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
