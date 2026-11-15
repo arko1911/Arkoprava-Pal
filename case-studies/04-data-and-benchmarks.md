@@ -74,4 +74,6 @@ A US resort that had migrated booking systems was returning no data. I traced it
 
 Event volume hit **3.91M in January** against a plan covering far less. I audited events by usefulness and proposed removing ~2.88M a month (e.g. high-volume page events no analysis used), worth ~$577/month in overage, with a comparison of two cheaper alternatives.
 
+More client results, the upsell experiment and platform-wide figures are in [Impact and analytics](08-impact-and-analytics.md).
+
 **Skills:** SQL/BigQuery · Mixpanel · funnel analysis · benchmarking design · client communication · debugging data pipelines
