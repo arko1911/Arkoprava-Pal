@@ -11,6 +11,10 @@ I turn messy commercial questions into decisions: who to talk to, what the data 
 ![Mailchimp](https://img.shields.io/badge/Mailchimp-campaigns-FFE01B)
 ![Figma](https://img.shields.io/badge/Figma_%26_FigJam-flows_%26_maps-F24E1E)
 ![Notion](https://img.shields.io/badge/Notion-docs-000000)
+![Looker](https://img.shields.io/badge/Looker-4285F4)
+![Google Analytics](https://img.shields.io/badge/Google_Analytics-E37400)
+![Jira](https://img.shields.io/badge/Jira-tickets-0052CC)
+![Salesforce](https://img.shields.io/badge/Salesforce-CRM-00A1E0)
 ![Claude](https://img.shields.io/badge/Claude_%26_Claude_Code-AI_tools-D97757)
 
 > **Confidentiality:** Namastay is named; its hotel clients and commercial partners are anonymised by type and size, never by name. Every figure is real and comes from my own analyses or the company KPI sheet. The demos run on synthetic data. Integration platforms and tools (SynXis, Mews, Mixpanel, BigQuery) are named because they are public products.
@@ -22,7 +26,8 @@ I turn messy commercial questions into decisions: who to talk to, what the data 
 | | |
 |---|---|
 | **€117K** | attributed to my work in the company KPI sheet: €41.6K ACV live, a €50K partner integration bonus received, €25.5K ACV in process |
-| **€218K ACV** | of existing client accounts supported or retained by analyses I ran |
+| **€218K ACV** | of existing client accounts supported or retained by analyses I ran; the largest line, €80,040, came from an upsell on/off experiment |
+| **+141%** | revenue for one hotel client, first vs second half on Namastay ($477K → $1.15M) |
 | **7 of 8** | sales/CS colleagues backed the upsell I picked after interviewing all of them |
 | **€275K** | recovered-revenue proof case that unblocked the upsell pitch |
 | **4 partnerships** | scoped and evaluated; two led end to end, one deliberately killed |
@@ -60,6 +65,8 @@ Three working tools, rebuilt on synthetic data so they run in the browser with n
 | 4 | Data that changed a client conversation | Fair benchmarks and honest attribution, turned into client action | [case study](case-studies/04-data-and-benchmarks.md) · [live demo](https://arko1911.github.io/Arkoprava-Pal/adr-benchmark.html) |
 | 5 | Discovery: experiences, not just rooms | Research, journeys and a workshop that ended in agreed actions | [case study](case-studies/05-discovery.md) |
 | 6 | Before Namastay | Checking numbers are right before anyone makes decisions with them | [case study](case-studies/06-before-namastay.md) |
+| 7 | A self-serve coupon dashboard, written as a PRD | Scoping a v1 that can ship, with v2 and v3 already specified | [case study](case-studies/07-coupon-dashboard-prd.md) |
+| 8 | Impact and analytics | Where the €218K comes from, client by client | [case study](case-studies/08-impact-and-analytics.md) |
 
 ### 1. Building an upsell motion from zero → [case study](case-studies/01-upsell-programme.md)
 
@@ -71,7 +78,7 @@ Four partnerships, each a bet on putting more of the guest's spend inside the bo
 
 ### 3. Mapping sales-to-billing and onboarding → [case study](case-studies/03-process-design.md)
 
-What flows from signature to invoice isn't the hotel, it's the **subscription**, so I designed a CRM Subscription object with a trial sub-flow and a billing rule. Onboarding took 10 weeks on average (best 3.5, worst 18); I mapped it into 9 phases, located where time actually went, and proposed 16 automations tied to evidence. I also ran a 195-case integration test suite for a hybrid-hotel brand's Paris and Vienna launches (passes 42 → 77, failures 14 → 7); both went live in August 2026.
+What flows from signature to invoice isn't the hotel, it's the **subscription**, so I designed a CRM Subscription object with a trial sub-flow and a billing rule. Onboarding took 10 weeks on average (best 3.5, worst 18); I mapped it into 9 phases, located where time actually went, and proposed 16 automations tied to evidence. **€41.6K of live ACV** is attributed to my work: seven hotels taken live (a two-hotel Paris and Vienna launch, a Mediterranean island resort, and four hotels in one UK collection) plus five Cart Abandonment upsells, with five more hotels from the same resort group in process.
 
 ### 4. Data that changed a client conversation → [case study](case-studies/04-data-and-benchmarks.md)
 
@@ -83,10 +90,32 @@ Tested the idea that guests book a stay while engines sell a room: a market map,
 
 ### 6. Before Namastay → [case study](case-studies/06-before-namastay.md)
 
-**AInsurCo** (London, remote; two engagements): validated a rebuilt Python life-insurance pricing model against legacy Excel/VBA, with 2,716 of 2,797 cases matched (97.1%) and every one of the 81 mismatches traced; built IFRS 17 reporting in Power BI; reconciled 74 pension test cases. **ADE** (Louvain-la-Neuve): part of the team that presented an EU education evaluation at the European Parliament; wrote a full Nigeria country case study; mapped 624 EU actions; screened 1,314 climate projects. M.Sc in Management, Emlyon Business School.
+**AInsurCo** (London, remote; two engagements): validated a rebuilt Python life-insurance pricing model against legacy Excel/VBA, with 2,716 of 2,797 cases matched (97.1%) and every one of the 81 mismatches traced; built IFRS 17 reporting in Power BI; reconciled 74 pension test cases. **ADE** (Louvain-la-Neuve): part of the team that presented an EU education evaluation at the European Parliament; wrote a full Nigeria country case study; mapped 624 EU actions; screened 1,314 climate projects. M.Sc in Management, Emlyon Business School, where I led a team building a market-entry strategy for **Air Liquide's hydrogen energy initiative** (presented to its Director of Hydrogen Energy) and, as International Head, organised International Week and Welcome Week for 200+ students from 16+ nationalities.
+
+### 7. A self-serve coupon dashboard, written as a PRD → [case study](case-studies/07-coupon-dashboard-prd.md)
+
+Hotels needed a customer-success manager every time they wanted a coupon or group code. I wrote a **five-sheet requirements workbook** (dashboard, templated CSV, raw CSV, update logic, column mapping) and made the scoping calls: **SynXis only for v1**, **manual entry in v1 and CSV upload in v2**, the **coupon code as the only dedup key** (case-insensitive, trimmed) and one login per hotel. That gave 40 requirements for v1, 22 for v2 and 26 for v3.
+
+### 8. Impact and analytics → [case study](case-studies/08-impact-and-analytics.md)
+
+The breakdown behind the €218K, client by client. For one hotel client, **revenue rose 141% ($477K → $1.15M)** and reservations more than doubled (166 → 336) from the first to the second half on Namastay. An upsell experiment (on at 3 hotels, off at 10) showed 3,982 displays → 873 selections (~22%). A 10-hotel group's €36.7M, 14,101-booking retention analysis showed its 2026 drop was its own, not the market's. Across the whole platform, 7.58M opens led to 122K purchases (~1.6%).
+
+---
+
+## Back office
+
+Smaller tools and documents ([details](case-studies/03-process-design.md#4-small-tools-and-documents-that-saved-time)):
+
+- A deeplink builder covering SynXis (217), D-Edge (84) and Mews (18), plus a CRM-to-database mapping of 294 hotels
+- A January bug report by source system, each issue tied to a Jira ticket
+- A payment-link competitor matrix: about 15 vendors × 15 capabilities
+- Enhanced Multiproperty requirements and a Mapbox Studio feasibility report
+- A 19 March brainstorm and an opportunity–solution tree for experience bookings, plus a trend scan of 32 hotels' itineraries ([discovery](case-studies/05-discovery.md))
 
 ---
 
 ## Contact
+
+Open to product, strategy and data roles. Based in Paris and open to relocating (for example Berlin or Amsterdam).
 
 Arkoprava Pal · 📍 Paris · ✉️ [palarko19@gmail.com](mailto:palarko19@gmail.com) · 🔗 [LinkedIn](https://linkedin.com/in/arkoprava-pal) · 🌐 [arko1911.github.io](https://arko1911.github.io/)
