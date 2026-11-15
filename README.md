@@ -89,4 +89,4 @@ Tested the idea that guests book a stay while engines sell a room: a market map,
 
 ## Contact
 
-Arkoprava Pal · 📍 Paris · ✉️ [palarko19@gmail.com](mailto:palarko19@gmail.com) · 🔗 [LinkedIn](https://linkedin.com/in/arkoprava-pal)
+Arkoprava Pal · 📍 Paris · ✉️ [palarko19@gmail.com](mailto:palarko19@gmail.com) · 🔗 [LinkedIn](https://linkedin.com/in/arkoprava-pal) · 🌐 [arko1911.github.io](https://arko1911.github.io/)
