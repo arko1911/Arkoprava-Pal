@@ -1,4 +1,4 @@
-# Arkoprava Pal — Product & Strategy
+# Arkoprava Pal - Product & Strategy
 
 I turn messy commercial questions into decisions: who to talk to, what the data actually says, what to build or kill, and how to get it signed. Since January 2026 I've done this as Product & Strategy Manager at **Namastay**, a Paris hotel-tech startup whose direct-booking engine runs on 250+ live luxury and boutique hotels. Before that: actuarial model validation for a London consultancy and EU programme evaluation in Belgium.
 
