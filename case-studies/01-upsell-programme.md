@@ -18,13 +18,13 @@ Namastay had ~273 live hotels and several paid features most of them weren't usi
 |---|---|---|---|---|
 | 2,285 | 200 | 8.75% | **€274,998** | €1,375 |
 
-A separate pilot at a three-hotel boutique group showed the companion feature (Exclusive Rates, which captures guest emails in exchange for a member price) raised email-recovered revenue 3–5×, and that a 3-hour email delay beat 24 hours.
+**4. Built the targeting data.** For each hotel I pulled a "% not starting payment" figure from Mixpanel (May–July 2026), matched the CRM against the booking database (294 hotels), and built two outreach lists (French: 50; mixed: 145), split into 159 + 328 contacts with language, country and go-live date.
 
-**4. Built the target list.** I merged two messy exports (recently-contacted people and the master customer list) into **153 hotels** with go-live dates, countries and up to 10 contacts each. Cleaning it meant fixing an email-security bounce prefix, a company field stored as a raw domain, multi-email cells with no separator, and dates parsed day-month the wrong way round.
+**5. Built the target list.** I merged two messy exports (recently-contacted people and the master customer list) into **153 hotels** with go-live dates, countries and up to 10 contacts each. Cleaning it meant fixing an email-security bounce prefix, a company field stored as a raw domain, multi-email cells with no separator, and dates parsed day-month the wrong way round.
 
-**5. Built the assets.** A 13-week roadmap, a one-pager in English and French, outbound emails with per-hotel merge fields (guest count, drop-off %), follow-up variants, a phone script, and a progress update for the team.
+**6. Built the assets.** A 13-week roadmap, a one-pager in English and French, outbound emails with per-hotel merge fields (guest count, drop-off %), follow-up variants, a phone script, and a progress update for the team.
 
-**6. Sequenced the rest of the portfolio.** Exclusive Rates as a free companion to Cart Abandonment; restaurant integration second (strongest client pull); enhanced multi-property third (blocked on a product gap); two features parked.
+**7. Sequenced the rest of the portfolio.** Exclusive Rates as a free companion to Cart Abandonment; restaurant integration second (strongest client pull); enhanced multi-property third (blocked on a product gap); two features parked.
 
 ```mermaid
 flowchart LR
@@ -34,6 +34,23 @@ flowchart LR
     D --> E[153-hotel target list]
     E --> F[Campaign + calls]
     F --> G[Upsells signed]
+```
+
+**The outreach flow I designed:**
+
+```mermaid
+flowchart TD
+    accTitle: Upsell outreach flow
+    accDescr: A target list is created and shared with customer success and sales. Clients receive a newsletter or one-pager. Sales calls one week later. If the hotel is interested, a call is set up and taken by sales, customer success or me, whoever is available. If not, the hotel returns to the normal customer-success process and the upsell is raised in weekly calls, where an interested hotel gets the pitch on the spot or a booked call, and an uninterested one loops back.
+    A[Target list created] --> B[Shared with CS and Sales]
+    B --> C[Newsletter / one-pager to clients]
+    C --> D[Sales calls one week later]
+    D --> E{Interested?}
+    E -->|Yes| F[Call set up: Sales, CS or me,<br/>whoever is available]
+    E -->|No| G[Normal CS process:<br/>upsell raised in weekly calls]
+    G --> H{Interested now?}
+    H -->|Yes| I[Pitch on the spot,<br/>or book a call]
+    H -->|No| G
 ```
 
 ## Decisions that mattered

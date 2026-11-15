@@ -38,6 +38,13 @@ An evaluation consultancy assessing EU-funded development and policy programmes.
 
 ---
 
+## Extracurricular · Emlyon Business School
+
+- **Academic initiative:** led an interdisciplinary team building a market-entry strategy for **Air Liquide's hydrogen energy initiative in the Philippines**, presented to its Director of Hydrogen Energy.
+- **International Head:** organised International Week and Welcome Week for **200+ students from 16+ nationalities**, and was the main contact for 100+ international students.
+
+---
+
 ## Earlier
 
 **Insta Oxygen — Co-founder · Pune · 2021.** During COVID-19, sourced oxygen concentrators for healthcare clients and ran the operations: contracting, scheduling and issue resolution.

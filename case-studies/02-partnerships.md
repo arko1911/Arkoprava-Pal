@@ -27,6 +27,49 @@ Namastay grows by putting more of the guest's spend inside its booking flow. I e
 - 44 requirements, three placement options in the booking flow, and cancellation, no-show and post-booking-change flows designed **before** build.
 - Sales and CS training, plus an objection-handling script.
 
+**Where it sits in the booking flow.** I mapped Namastay's 8-step booking journey and proposed three placements:
+
+```mermaid
+flowchart TD
+    accTitle: Three placement options for the refundable upgrade
+    accDescr: Option one, a fully refundable rate at the rate-selection step with the cover price included. Options two and three sit at the add-ons and review step. Option two, the refundable upgrade replaces the incumbent and is added to the total when selected. Option three, a guest-facing read-more summary of the amount recoverable, payout time and conditions.
+    R[Step: rate selection] --> X[Step: add-ons / review]
+    R --> O1[Option 1: fully refundable rate,<br/>cover price included]
+    X --> O2[Option 2: refundable upgrade<br/>replaces the incumbent,<br/>added to total if chosen]
+    X --> O3[Option 3: guest-side 'Read more':<br/>amount recoverable,<br/>payout time, conditions]
+```
+
+**The pilot, with a gate before any build.** A commercial track and a product track ran in parallel:
+
+```mermaid
+flowchart TD
+    accTitle: Refund-protection pilot plan
+    accDescr: Commercial track. First 15 hotels, 10 plus 5 backup, then demos, then a gate of at least 10 of 15 interested, then commercial agreement, enablement, go-live and the 50 thousand euro bonus. Product track in parallel. UX prototypes, shared with the partner, draft scope, feasibility with a developer, refined with dev, tickets, sprints with daily scrum, release.
+    subgraph Commercial
+      C1[First 15 hotels<br/>10 + 5 backup] --> C2[Demos] --> C3{≥ 10 of 15<br/>interested?}
+      C3 -->|Yes| C4[Commercial agreement] --> C5[Enablement] --> C6[Go-live] --> C7[€50K bonus]
+    end
+    subgraph Product
+      P1[UX prototypes] --> P2[Shared with partner] --> P3[Draft scope] --> P4[Feasibility with dev] --> P5[Refine with dev] --> P6[Tickets] --> P7[Sprints, daily scrum] --> P8[Release]
+    end
+```
+
+**Edge cases designed before build:**
+
+```mermaid
+flowchart LR
+    %% keep-lr
+    accTitle: Edge cases for the refundable upgrade
+    accDescr: Partial or full cancellation. If the hotel refunds, the partner does nothing. If the hotel does not refund, the guest claims with the partner. No-show, the hotel is charged the upgrade amount. Extras added after booking, either Namastay relays the change and the partner re-quotes with the extra charged to the hotel, or no action and the partner protects the original amount. Shortened stay, nothing changes on the partner side unless money is returned.
+    A[Partial or full cancellation] --> B{Hotel refunds?}
+    B -->|Yes| B1[Partner does nothing]
+    B -->|No| B2[Guest claims with partner]
+    N[No-show] --> N1[Hotel charged the upgrade amount]
+    E[Guest adds extras after booking] --> E1[Option A: Namastay relays, partner re-quotes,<br/>extra charged to hotel]
+    E --> E2[Option B: no action, partner protects<br/>the original amount]
+    S[Guest shortens stay] --> S1[Nothing changes on the partner side<br/>unless money is returned]
+```
+
 **The positioning rule that mattered:** never call it "insurance." Hotels hear liability and claims; guests hear fine print. It's positioned as an **optional refundable upgrade** and a new revenue line, at no cost or operational effort to the hotel.
 
 **My role:** I ran scoping, the business case, requirements and go-to-market, and led the negotiation call and the sign-off alongside leadership, who made the final decision. **The €50K integration bonus has been received.**
@@ -57,6 +100,23 @@ Namastay grows by putting more of the guest's spend inside its booking flow. I e
 - A **teardown of four spa-booking platforms**, screen by screen (~16 screens for the most complete one), mapping their three booking models: appointments, fixed-date sessions, and time slots for a space.
 - A **ten-factor decision framework**: embed the partner's own booking widget, or build our own front-end on their API?
 - Competitive research across booking engines to check whether anyone had done this deeply.
+
+The spa partner offers three booking types:
+
+```mermaid
+flowchart LR
+    accTitle: The spa partner's three booking types
+    accDescr: Appointment, where the guest picks a date, then a time slot, then optionally a therapist. Session, fixed dates with limited spots. Area, booking a time window for a space.
+    subgraph Appointment
+      A1[Date] --> A2[Time slot] --> A3[Therapist, optional]
+    end
+    subgraph Session
+      S1[Fixed dates, limited spots]
+    end
+    subgraph Area
+      R1[Time window for a space]
+    end
+```
 
 **Decision.** Build a custom Namastay front-end with the partner as a pure backend, and scope **v1 to appointments only**, the model the partner itself recommended and the simplest to get right.
 
