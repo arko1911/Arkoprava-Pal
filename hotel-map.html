@@ -53,6 +53,8 @@ select{border:1px solid var(--line);background:var(--bg);color:var(--ink);border
 .stats b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
 .stats span{font-size:12px;color:var(--muted)}
 .foot{margin-top:24px;font-size:12.5px;color:var(--muted)}
+.basemap .leaflet-tile{filter:grayscale(.85) contrast(.92) brightness(1.04)}
+.basemap-dark .leaflet-tile{filter:grayscale(1) invert(.92) hue-rotate(180deg) brightness(.9) contrast(.9)}
 </style>
 </head>
 <body>
@@ -126,9 +128,9 @@ select{border:1px solid var(--line);background:var(--bg);color:var(--ink);border
 
   var dark=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;
   var map=L.map('map',{worldCopyJump:true,scrollWheelZoom:false}).setView([38,5],3);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/'+(dark?'dark_all':'light_all')+'/{z}/{x}/{y}{r}.png',{
-    maxZoom:18, subdomains:'abcd',
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19, className:dark?'basemap basemap-dark':'basemap',
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
   var layer=L.layerGroup().addTo(map);
 
